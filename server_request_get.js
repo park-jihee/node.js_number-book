@@ -15,7 +15,7 @@ const url = require('url');
 // 2. 요청한 url 중에 Query String을 객체로 만들기 위해 QueryStirng 모듈 사용
 const querystring = require('querystring');
 
-const server = http.createServer(function(req, res) {
+let server = http.createServer((req, res) =>  {
     console.log('LOG START');
 
     // 3. 브라우저에서 요청한 주소를 파싱하여 객체화 후에 출력
@@ -29,8 +29,9 @@ const server = http.createServer(function(req, res) {
 
     console.log('LOG END');
 
-    res.writeHead(200, {'Content-Type' : 'text/html'});
-    res.end('Hello Node.JS');
+    res.writeHead(200, {'Content-Type' : 'text/html; charset=utf-8'});
+    res.end('var1의 값은 ' + parsedQuery.var1);
+    console.log(parsedQuery.var1)
 });
 
 server.listen(3000, function() {
