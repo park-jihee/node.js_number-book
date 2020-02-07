@@ -1,25 +1,29 @@
-// npm install --save ejs express mongoose 세 개의 package 한 번의 설치
-// site - https://www.a-mean-blog.com/ko/blog/Node-JS-%EC%B2%AB%EA%B1%B8%EC%9D%8C/%EC%A3%BC%EC%86%8C%EB%A1%9D-%EB%A7%8C%EB%93%A4%EA%B8%B0/%EC%A3%BC%EC%86%8C%EB%A1%9D-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%83%9D%EC%84%B1-%EB%B0%8F-mongoose%EB%A1%9C-DB-%EC%97%B0%EA%B2%B0
-var http = require('http');
-var express = require('express'); 
-var app = express();
+// require == import
+const http = require('http');
+// 1. 서버의 사용을 위해서 http 모듈을 http 변수에 담는다.
+const fs = require('fs');
+const server = http.createServer((req, res) => {
+    var url = req.url;
+    if (req.url == '/') {
+        url = '/public/index.html';
 
-// express -  node.js 프레임워크 
-app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/public'));
-//ejs를 사용하기 위해 express의 view engine에 ejs를 set하는 코드
-//ejs - html 안에서 JavaScript를 사용할 수 있게 하는 것
-//121.130.225.9
-const hostname = '127.0.0.1';
-const port = 1004;
-
-http.createServer((req, res) => {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('I am angel');
-}).listen(port, hostname, () => {
-    console.log('Server running at http://${hostname}:${port}/');
+    }
+    if (req.url == '/favicon.ico') {
+        res.writeHead(404);
+        res.end();
+        return;
+    }
+    res.writeHead(200);
+    // res 객체를 사용해 사용자 측으로 반환값을 넘겨줄 수 있다.
+    // 200은 들어오는 어떤 요청에 대해 정상적으로 값을 리턴할 때 사용되는 http 상태 코드이다.
+    // 오류가 없이 서버에서 처리가 정상적으로 완료되면 200코드를 담아서 응답헤더를 설정해준다.
+    res.end(fs.readFileSync(__dirname + url));
+    // end() 는 컨텐츠를 담아서 브라우저 측에 전달한다.
 });
-
-// app.listen(port, function() {
-//     console.log("================ Server On ================");
-// });
+server.listen(3000, function() {
+    console.log('------------------------------------------------------------------------------');
+    console.log('');
+    console.log('------------------------------- SERVER RUNNING -------------------------------');
+    console.log('');
+    console.log('------------------------------------------------------------------------------');
+});
