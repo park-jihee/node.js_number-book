@@ -14,6 +14,7 @@ const url = require('url');
 
 // 2. 요청한 url 중에 Query String을 객체로 만들기 위해 QueryStirng 모듈 사용
 const querystring = require('querystring');
+const port = 3000;
 
 let server = http.createServer((req, res) =>  {
     console.log('LOG START');
@@ -34,6 +35,6 @@ let server = http.createServer((req, res) =>  {
     console.log(parsedQuery.var1)
 });
 
-server.listen(3000, function() {
+server.listen(port, function() {
     console.log('Server Start')
 });
